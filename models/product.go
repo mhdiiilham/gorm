@@ -1,8 +1,6 @@
 package model
 
-import (
-	"github.com/jinzhu/gorm"
-)
+import "github.com/jinzhu/gorm"
 
 // Product model
 type Product struct {

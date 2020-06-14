@@ -13,6 +13,7 @@ import (
 func Connection() *gorm.DB {
 	db, err := gorm.Open("mysql", "root:root@/company?charset=utf8&parseTime=True&loc=Local")
 	db.AutoMigrate(&model.Product{})
+	db.AutoMigrate(&model.User{})	
 	if err != nil {log.Fatal(err)}
 	log.Info("Database connected")
 	return db

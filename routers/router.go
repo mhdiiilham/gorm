@@ -8,6 +8,7 @@ import (
 func Router() *mux.Router {
 	r := mux.NewRouter()
 
+	HandleAuth(r)
 	ProductHandler(r)
 
 	return r
