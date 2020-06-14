@@ -19,7 +19,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 func PostProduct(w http.ResponseWriter, r *http.Request) {
 	product := model.Product{}
 	decoder := json.NewDecoder(r.Body)
-	log.Info(decoder)
+
 	if err := decoder.Decode(&product); err != nil {
 		model.RespondError(w, http.StatusBadRequest, err.Error())
 		return

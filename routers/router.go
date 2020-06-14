@@ -1,15 +1,14 @@
 package routers
- import (
+
+import (
 	"github.com/gorilla/mux"
-	"github.com/mhdiiilham/gorm/controllers"
- )
+)
 
- // Router ...
- func Router() *mux.Router {
-	 router := mux.NewRouter()
+// Router ...
+func Router() *mux.Router {
+	r := mux.NewRouter()
 
-	 router.HandleFunc("/products", controllers.GetProducts).Methods("GET")
-	 router.HandleFunc("/products", controllers.PostProduct).Methods("POST")
+	ProductHandler(r)
 
-	 return router
- }
+	return r
+}
