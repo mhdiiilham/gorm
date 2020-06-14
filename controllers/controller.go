@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	log "github.com/sirupsen/logrus"
 	"github.com/mhdiiilham/gorm/db"
 	"github.com/mhdiiilham/gorm/models"
 )
