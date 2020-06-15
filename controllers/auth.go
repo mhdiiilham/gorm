@@ -41,42 +41,44 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 // SignIn ...
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
+
+	// Declare varible respond and reqBody
 	respond := map[string]string{}
 	reqBody := map[string]string{}
 
+	// Decode r.Body and assign it to reqBody
 	err := json.NewDecoder(r.Body).Decode(&reqBody)
-
 	if err != nil {
 		log.Fatal(err)
 		model.RespondError(w, http.StatusInternalServerError, err.Error())
 	}
 
+	// Check if user's email exist
 	user, err := findEmail(reqBody["email"])
-
 	if err != nil {
 		model.RespondError(w, http.StatusBadRequest, "Email / Password is Wrong")
 		return
 	}
 
-	// model.RespondJSON(w, 200, user.PasswordHash)
-	plain := reqBody["password"]
-	isValid := h.Compare(user.PasswordHash, []byte(plain))
-
+	// Compare user plain password with DB saved password
+	isValid := h.Compare(user.PasswordHash, []byte(reqBody["password"]))
 	if !isValid {
 		model.RespondError(w, http.StatusBadRequest, "Email / Password is Wrong")
 		return
 	}
 
+	// Create token if user password is correct
 	token, err := h.CreateJWTToken(string(user.ID), user.Email)
 	if err != nil {
 		log.Fatal(err)
 		model.RespondError(w, http.StatusBadRequest, "Something went wrong")
 		return
-	}http://localhost:8000/auth/signin
+	}
+
+	// Fill the respond to client
 	respond["token"] = token
 	respond["fullname"] = user.Fullname
 	model.RespondJSON(w, http.StatusAccepted, respond)
-	
 }
 
 func findEmail(e string) (model.User, error) {
