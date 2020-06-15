@@ -9,3 +9,9 @@ type User struct {
 	Email string `gorm:"type:varchar(100);unique_index"`
 	PasswordHash string `gorm:"type:varchar(60)"`
 }
+
+// LoginRespond ...
+type LoginRespond struct {
+	Token string
+	Fullname string
+}

@@ -43,7 +43,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
 	// Declare varible respond and reqBody
-	respond := map[string]string{}
+	var respond model.LoginRespond
 	reqBody := map[string]string{}
 
 	// Decode r.Body and assign it to reqBody
@@ -68,16 +68,17 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create token if user password is correct
-	token, err := h.CreateJWTToken(string(user.ID), user.Email)
+	token, err := h.CreateJWTToken(user.ID, user.Email)
 	if err != nil {
 		log.Fatal(err)
 		model.RespondError(w, http.StatusBadRequest, "Something went wrong")
 		return
 	}
 
-	// Fill the respond to client
-	respond["token"] = token
-	respond["fullname"] = user.Fullname
+	// Send respon to client
+	respond.Token = token
+	respond.Fullname = user.Fullname
+
 	model.RespondJSON(w, http.StatusAccepted, respond)
 }
 
